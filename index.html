@@ -1,1 +1,321 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <title>Forex Signal App</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0b1220;
+      color: white;
+      padding: 18px;
+    }
+
+    .app {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: #111b2e;
+      border: 1px solid #24324a;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .pair {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .price {
+      font-size: 30px;
+      margin: 8px 0;
+    }
+
+    .signal {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin: 8px 0 15px;
+    }
+
+    .buy {
+      background: #064e3b;
+      color: #6ee7b7;
+    }
+
+    .sell {
+      background: #7f1d1d;
+      color: #fecaca;
+    }
+
+    .wait {
+      background: #78350f;
+      color: #fde68a;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      border-bottom: 1px solid #24324a;
+    }
+
+    .row:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      color: #94a3b8;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    button:active {
+      opacity: 0.8;
+    }
+
+    .warning {
+      color: #fbbf24;
+      font-size: 13px;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <h1>Forex Signal App</h1>
+    <div class="subtitle">Personal trading dashboard</div>
+
+    <div class="card">
+
+      <div class="pair">EUR/USD</div>
+
+      <div class="price" id="price">
+        1.17520
+      </div>
+
+      <div class="signal wait" id="signal">
+        WAIT
+      </div>
+
+      <div class="row">
+        <span class="label">Entry</span>
+        <span id="entry">1.17520</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Stop Loss</span>
+        <span id="stop">1.17320</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Take Profit</span>
+        <span id="target">1.17920</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Timeframe</span>
+        <span>1H</span>
+      </div>
+
+      <button onclick="generateDemoSignal()">
+        Refresh Analysis
+      </button>
+
+      <div class="warning">
+        Demo interface only. Signals are not live trading advice yet.
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="pair">Technical Analysis</div>
+
+      <div class="row">
+        <span class="label">EMA 20</span>
+        <span id="ema20">1.17480</span>
+      </div>
+
+      <div class="row">
+        <span class="label">EMA 50</span>
+        <span id="ema50">1.17420</span>
+      </div>
+
+      <div class="row">
+        <span class="label">RSI</span>
+        <span id="rsi">54</span>
+      </div>
+
+      <div class="row">
+        <span class="label">MACD</span>
+        <span id="macd">Positive</span>
+      </div>
+
+      <div class="row">
+        <span class="label">ADX</span>
+        <span id="adx">23</span>
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="pair">Market Status</div>
+
+      <div class="row">
+        <span class="label">Trend</span>
+        <span id="trend">Neutral</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Volatility</span>
+        <span id="volatility">Normal</span>
+      </div>
+
+      <div class="row">
+        <span class="label">News Filter</span>
+        <span id="news">Waiting for connection</span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+<script>
+
+function generateDemoSignal() {
+
+  const signals = ["BUY", "SELL", "WAIT"];
+
+  const signal =
+    signals[Math.floor(Math.random() * signals.length)];
+
+  const price =
+    1.17000 + Math.random() * 0.01000;
+
+  const entry =
+    price.toFixed(5);
+
+  let stop;
+  let target;
+
+  const signalBox =
+    document.getElementById("signal");
+
+  signalBox.className = "signal";
+
+  if (signal === "BUY") {
+
+    stop = (price - 0.0020).toFixed(5);
+    target = (price + 0.0040).toFixed(5);
+
+    signalBox.classList.add("buy");
+
+  }
+
+  else if (signal === "SELL") {
+
+    stop = (price + 0.0020).toFixed(5);
+    target = (price - 0.0040).toFixed(5);
+
+    signalBox.classList.add("sell");
+
+  }
+
+  else {
+
+    stop = "-";
+    target = "-";
+
+    signalBox.classList.add("wait");
+
+  }
+
+  signalBox.textContent = signal;
+
+  document.getElementById("price").textContent =
+    entry;
+
+  document.getElementById("entry").textContent =
+    entry;
+
+  document.getElementById("stop").textContent =
+    stop;
+
+  document.getElementById("target").textContent =
+    target;
+
+
+  const rsi =
+    Math.floor(40 + Math.random() * 30);
+
+  const adx =
+    Math.floor(15 + Math.random() * 25);
+
+  document.getElementById("rsi").textContent =
+    rsi;
+
+  document.getElementById("adx").textContent =
+    adx;
+
+  document.getElementById("ema20").textContent =
+    (price - 0.0004).toFixed(5);
+
+  document.getElementById("ema50").textContent =
+    (price - 0.0010).toFixed(5);
+
+  document.getElementById("macd").textContent =
+    signal === "SELL" ? "Negative" : "Positive";
+
+  document.getElementById("trend").textContent =
+    signal === "WAIT" ? "Neutral" :
+    signal === "BUY" ? "Bullish" : "Bearish";
+
+}
+
+</script>
+
+</body>
+</html>
